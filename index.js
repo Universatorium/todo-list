@@ -9,25 +9,19 @@ app.use(express.json());
 const todo = require('./todoModel');
 
 // Connect to MongoDB
-mongoose.connect('mongodb+srv://xxx@cluster0.uxaphon.mongodb.net/todo-list?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect('mongodb+srv://Universator:FAzG3CxIVhPFl1hS@cluster0.uxaphon.mongodb.net/todo-list?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true })
 .then(() => {
 console.log(chalk.bgCyan('MongoDB "todo-list" connected...'));
 })
-.catch(err => console.log(err));
+.catch(err => log(err));
 
 app.get('/', (req, res) => {
 res.send('<h1> Was an Aufgaben übrig bleibt!');
 });
-log('Du hast grad auf die Seite geschaut?');
-
 app.use((req, res, next) => { const now = new Date().toISOString();
     log(now);
     next();
 });
-
-
-
-
 // GET: Alle Aufgaben abrufen
 app.get('/tasks', async (req, res) => {
 try {
@@ -67,6 +61,7 @@ app.post('/tasks', (req, res, next) => {
     task.save()
         .then(savedTask => {
         res.json(savedTask);
+        log(savedTask);
     })
         .catch(error => {
         console.error(error);
@@ -78,7 +73,7 @@ app.post('/tasks', (req, res, next) => {
 
 
 const PORT = process.env.PORT || 666;
-app.listen(PORT, () => console.log(chalk.blue.bgRed.bold(`Euer Diener erwartet Eure Befehle auf Portal ${PORT} Meister`)));
+app.listen(PORT, () => log(chalk.blue.bgRed.bold(`Euer Diener erwartet Eure Befehle auf Portal ${PORT} Meister`)));
 
 
 
