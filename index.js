@@ -6,10 +6,10 @@ const log = console.log;
 app.use(express.json());
 
 //Importiere das todo Model
-const todo = require('./todoModel');
+const werkzeuge = require('./werkzeuge');
 
 // Connect to MongoDB
-mongoose.connect('mongodb+srv://Universator:FAzG3CxIVhPFl1hS@cluster0.uxaphon.mongodb.net/todo-list?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect('mongodb+srv://-----------@cluster0.uxaphon.mongodb.net/todo-list?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true })
 .then(() => {
 console.log(chalk.bgCyan('MongoDB "todo-list" connected...'));
 })
@@ -18,14 +18,16 @@ console.log(chalk.bgCyan('MongoDB "todo-list" connected...'));
 app.get('/', (req, res) => {
 res.send('<h1> Was an Aufgaben übrig bleibt!');
 });
-app.use((req, res, next) => { const now = new Date().toISOString();
-    log(now);
+app.use((req, res, next) => { const now = new Date();
+    
+    log(werkzeuge.formatDate(now)+ ' ' + (req.method) + ' ' + req.get('host') );
+    log(req.url );
     next();
 });
 // GET: Alle Aufgaben abrufen
 app.get('/tasks', async (req, res) => {
 try {
-    const tasks = await todo.find();
+    const tasks = await werkzeuge.todo.find();
     res.json(tasks);
 } catch (error) {
     res.status(500).json({ message: error.message });
@@ -52,7 +54,7 @@ try {
 // module.exports = router;
 // POST tasks hinzufügen
 app.post('/tasks', (req, res, next) => {
-    const task = new todo({
+    const task = new werkzeuge.todo({
         Titel: req.body.Titel,
         Beschreibung: req.body.Beschreibung,
         Fälligkeitsdatum: req.body.Fälligkeitsdatum,
