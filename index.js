@@ -9,7 +9,7 @@ app.use(express.json());
 const todo = require('./todoModel');
 
 // Connect to MongoDB
-mongoose.connect('mongodb+srv://Universator:FAzG3CxIVhPFl1hS@cluster0.uxaphon.mongodb.net/todo-list?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect('mongodb+srv://@cluster0.uxaphon.mongodb.net/todo-list?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true })
 .then(() => {
 console.log(chalk.bgCyan('MongoDB "todo-list" connected...'));
 })
